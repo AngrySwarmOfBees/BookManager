@@ -115,8 +115,9 @@ class FileManager():
             #for key, value in BookData.items():
                 #writer.writerow([key, value])
             for i in BookData:
+                print("print i")
                 print(i)
-                writer.writerow([i, BookData[i][0], BookData[i][1]])
+                writer.writerow(i)
 
 class BookManager():
 
@@ -133,7 +134,7 @@ class BookManager():
             #print(row)
             BookData.append(row)
             #print(BookData.index(row))
-            BookList[row[0]] = BookData.index(row)
+            #BookList[row[0]] = BookData.index(row)
             print(BookData)
             print(BookList)
             
@@ -144,8 +145,7 @@ class BookManager():
         #Add new book dialog
         NewBookName = tk.simpledialog.askstring("Book Name", "What is the name of the book?")
         print(NewBookName)
-        BookList.append(NewBookName)
-        BookData[NewBookName] = [str(datetime.today()), 0.0]
+        BookData.append([NewBookName, str(datetime.today()), 0.0])
         print(BookData)
 
 
