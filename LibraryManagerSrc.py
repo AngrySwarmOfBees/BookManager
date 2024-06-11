@@ -107,7 +107,13 @@ class FileManager():
         FileType = FileInfo[1]  #saving file extension
         print(FileType)
         #OpenFile()
-    
+    def SaveData():
+        global BookList
+        global BookData
+        with open(FileManager.LocalSaveFile, 'w') as csv_file:  
+            writer = csv.writer(csv_file)
+            for key, value in BookData.items():
+                writer.writerow([key, value])
 
 class BookManager():
 
@@ -153,8 +159,11 @@ SideBarMenuButton=tk.Button(SideMenuPanel, text="MB", command=PlaceholderFunc, b
 SideBarMenuButton.place(x=0, y=45, relwidth="1", height=45) #Place Menu button
 SideBarFileButton = tk.Button(SideMenuPanel, text="FM", font=BodyFont, command=FileManager.FileDialogOpen, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarFileButton.place(x=0, y=90, relwidth="1", height=45)    #Add open file button
-SideBarDarkModeButton = tk.Button(SideMenuPanel, text="DM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialze button
+SideBarDarkModeButton = tk.Button(SideMenuPanel, text="DM", font=BodyFont, command=FileManager.SaveData, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialze button
 SideBarDarkModeButton.place(x=0, y=180, relwidth="1", height=45)    #Add toggle dark mode button
+
+#dark mode button is for saving atm
+
 SideBarSettingsButton = tk.Button(SideMenuPanel, text="SM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarSettingsButton.place(x=0, y=480, relwidth="1", height=45)   #Place Settings Button
 
