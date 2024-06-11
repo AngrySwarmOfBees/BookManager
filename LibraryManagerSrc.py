@@ -14,6 +14,7 @@ from tkinter import messagebox as mb
 import tkinter.font as TkFont
 from PIL import Image, ImageTk
 from turtle import bgcolor, color, left, right, width
+from pathlib import Path
 
 
 
@@ -48,6 +49,28 @@ Root.resizable(True, True)
 def PlaceholderFunc():
     print("Button pressed")
 
+class FileManager():
+    def Load():
+        print("load file function")
+    def Save():
+        print("save file function")
+    def FileDialog():
+        global LaunchArgument
+        global DocPath
+        global FileName
+        global FileType
+        global FileInfo
+        FileName = fd.askopenfilename(
+            title='Select a library file',
+            initialdir='/'
+        )
+        DocPath = Path(FileName)    #initializes a path refrence to the given file
+        FileInfo = FileName.split(".")   #creates an array containing the split string, the latter half of the split string is the file extension
+        FileType = FileInfo[1]  #saving file extension
+        print(FileType)
+        #OpenFile()
+
+
 #Main window setup
 MainCanvas = tk.Canvas(Root, background="#1F1B24", height=6, width=270, bd="0", highlightthickness="0")
 MainCanvas.place(x=0, y=0, relheight="1", relwidth="1")
@@ -59,12 +82,14 @@ SideMenuPanel=tk.Canvas(Root, background="#1f1f1f", height=6, width=50, bd="0", 
 SideMenuPanel.pack(side=LEFT)   #add left side bar
 SideBarMenuButton=tk.Button(SideMenuPanel, text="MB", command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarMenuButton.place(x=0, y=0, relwidth="1", height=45) #Place Menu button
-SideBarFileButton = tk.Button(SideMenuPanel, text="FM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
+SideBarFileButton = tk.Button(SideMenuPanel, text="FM", font=BodyFont, command=FileManager.FileDialog, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarFileButton.place(x=0, y=45, relwidth="1", height=45)    #Add open file button
 SideBarDarkModeButton = tk.Button(SideMenuPanel, text="DM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialze button
 SideBarDarkModeButton.place(x=0, y=90, relwidth="1", height=45)    #Add toggle dark mode button
 SideBarSettingsButton = tk.Button(SideMenuPanel, text="SM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarSettingsButton.place(x=0, y=480, relwidth="1", height=45)   #Place Settings Button
+
+MyLibraryCanvas=tk.Canvas(MainCanvas, background="#1f1f1f", height=Root.winfo_height(), width=(Root.winfo_width() - 50))
 
 class App(Frame):
     def __init__(self, parent):
@@ -94,7 +119,6 @@ class App(Frame):
             SideBarFileButton.place(x=0, y=(45), relwidth="1", height=45)    #update open file button
             SideBarDarkModeButton.place(x=0, y=(90), relwidth="1", height=45)    #update toggle dark mode button
             SideBarSettingsButton.place(x=0, y=(Root.winfo_height() - 45), relwidth="1", height=45)   #update Settings Button
-
 
 App(Root).pack()
 
