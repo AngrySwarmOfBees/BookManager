@@ -12,4 +12,6 @@ Packages:
 
 # ChangeLog:
 
-6/9/24: Readme Created
+6/9/24: Readme Created'
+
+6/10/24: Completed basic UI, basic save and load functionalty
