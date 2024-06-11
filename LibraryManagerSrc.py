@@ -28,7 +28,7 @@ global DocPath
 global FileName
 global FileType
 global FileInfo
-global BookList
+global BookList # Name - ID
 global BookData
 
 #nonglobals
@@ -112,8 +112,11 @@ class FileManager():
         global BookData
         with open(FileManager.LocalSaveFile, 'w') as csv_file:  
             writer = csv.writer(csv_file)
-            for key, value in BookData.items():
-                writer.writerow([key, value])
+            #for key, value in BookData.items():
+                #writer.writerow([key, value])
+            for i in BookData:
+                print(i)
+                writer.writerow([i, BookData[i][0], BookData[i][1]])
 
 class BookManager():
 
@@ -123,13 +126,17 @@ class BookManager():
         print("init book manager class")
         global BookList
         global BookData
-        BookList = []
-        BookData = {}
+        BookList = {}
+        BookData = []
         BookDataFile = csv.reader(open(FileManager.LocalSaveFile))
         for row in BookDataFile:
             #print(row)
-            BookList.append(row[0])
-            BookData[row[0]] = [row[1], row[2]]
+            BookData.append(row)
+            #print(BookData.index(row))
+            BookList[row[0]] = BookData.index(row)
+            print(BookData)
+            print(BookList)
+            
         #print(BookList)
         #Gather data from csv file and add to memory in booklist and bookdata vars
     def AddNewBook():
