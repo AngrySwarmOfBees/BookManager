@@ -86,6 +86,7 @@ class App(Frame):
             SideBarFileButton.place(x=0, y=90, relwidth="1", height=45)    #update open file button
             SideBarDarkModeButton.place(x=0, y=135, relwidth="1", height=45)    #update toggle dark mode button
             SideBarSettingsButton.place(x=0, y=(Root.winfo_height() - 45), relwidth="1", height=45)   #update Settings Button
+            #MyLibraryCanvas.configure(scrollregion=MyLibraryCanvas.winfo_geometry())
 
 
 class FileManager():
@@ -134,7 +135,7 @@ class BookManager():
             #print(row)
             BookData.append(row)
             #print(BookData.index(row))
-            #BookList[row[0]] = BookData.index(row)
+            BookList[row[0]] = BookData.index(row)
             print(BookData)
             print(BookList)
             
@@ -146,9 +147,29 @@ class BookManager():
         NewBookName = tk.simpledialog.askstring("Book Name", "What is the name of the book?")
         print(NewBookName)
         BookData.append([NewBookName, str(datetime.today()), 0.0])
+        BookList.append(NewBookName)
         print(BookData)
 
+class ScrollableFrame(ttk.Frame):
+    def __init__(self, container, *args, **kwargs):
+        super().__init__(container, *args, **kwargs)
+        canvas = tk.Canvas(self)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.scrollable_frame = ttk.Frame(canvas)
 
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+
+        canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
 
 
 #Main window setup
@@ -173,9 +194,14 @@ SideBarDarkModeButton.place(x=0, y=180, relwidth="1", height=45)    #Add toggle 
 
 SideBarSettingsButton = tk.Button(SideMenuPanel, text="SM", font=BodyFont, command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
 SideBarSettingsButton.place(x=0, y=480, relwidth="1", height=45)   #Place Settings Button
-
-MyLibraryCanvas=tk.Canvas(MainCanvas, background="#1f1f1f", height=Root.winfo_height(), width=(Root.winfo_width() - 50))
+BookManager.__init__()
+LibraryFrame = ScrollableFrame(MainCanvas)
+LibraryFrame.scrollable_frame.configure(height=Root.winfo_height(), width=(Root.winfo_height() - 50))
+for i in BookList.keys():
+    print(i)
+    Label(LibraryFrame.scrollable_frame, text=i).pack(side="top")
+    Button(LibraryFrame.scrollable_frame, text="Edit").pack(side="top")
+LibraryFrame.pack(side="right",fill=BOTH)
 
 App(Root).pack()
-BookManager.__init__()
 Root.mainloop()
