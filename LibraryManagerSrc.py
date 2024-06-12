@@ -147,15 +147,19 @@ class BookManager():
         NewBookName = tk.simpledialog.askstring("Book Name", "What is the name of the book?")
         print(NewBookName)
         BookData.append([NewBookName, str(datetime.today()), 0.0])
-        BookList.append(NewBookName)
+        BookList[NewBookName] = 00
         print(BookData)
+        Label(LibraryFrame.scrollable_frame, text=NewBookName).pack(side="top")
+        Button(LibraryFrame.scrollable_frame, text="Edit").pack(side="top")
 
 class ScrollableFrame(ttk.Frame):
+    BodyWidgetStyle = ttk.Style()
+    BodyWidgetStyle.configure('TFrame', background='#1F1B24')
     def __init__(self, container, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
-        canvas = tk.Canvas(self)
+        canvas = tk.Canvas(self, background="#1F1B24", bd=0)
         scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
-        self.scrollable_frame = ttk.Frame(canvas)
+        self.scrollable_frame = ttk.Frame(canvas, style='TFrame')
 
         self.scrollable_frame.bind(
             "<Configure>",
@@ -166,7 +170,7 @@ class ScrollableFrame(ttk.Frame):
 
         canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
 
-        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.configure(yscrollcommand=scrollbar.set, background="#1F1B24")
 
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
@@ -199,8 +203,8 @@ LibraryFrame = ScrollableFrame(MainCanvas)
 LibraryFrame.scrollable_frame.configure(height=Root.winfo_height(), width=(Root.winfo_height() - 50))
 for i in BookList.keys():
     print(i)
-    Label(LibraryFrame.scrollable_frame, text=i).pack(side="top")
-    Button(LibraryFrame.scrollable_frame, text="Edit").pack(side="top")
+    Label(LibraryFrame.scrollable_frame, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="top")
+    Button(LibraryFrame.scrollable_frame, text="Edit", bg="#bb86fc").pack(side="top")
 LibraryFrame.pack(side="right",fill=BOTH)
 
 App(Root).pack()
