@@ -185,14 +185,15 @@ MainCanvas.place(x=0, y=0, relheight="1", relwidth="1")
 
 SideMenuPanel=tk.Canvas(MainCanvas, background="#1f1f1f", height=6, width=50, bd="0", highlightthickness="0")     #Create left side bar
 SideMenuPanel.pack(side=LEFT)   #add left side bar
-SideBarAddNewBookButton=tk.Button(SideMenuPanel, text="+", command=BookManager.AddNewBook, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")
+SideBarAddNewBookButton=tk.Button(SideMenuPanel, text="+", command=BookManager.AddNewBook, bg="#1f1f1f", fg="#bb86fc", activebackground="#bb86fc", activeforeground="#1f1f1f", bd="0")
 SideBarAddNewBookButton.place(x=0, y=0, relwidth="1", height=45)
-SideBarMenuButton=tk.Button(SideMenuPanel, text="MB", command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
+SideBarMenuButton=tk.Button(SideMenuPanel, text="MB", command=PlaceholderFunc, bg="#1f1f1f", fg="#bb86fc", activebackground="#bb86fc", activeforeground="#1f1f1f", bd="0")  #Initialize Button
 SideBarMenuButton.place(x=0, y=45, relwidth="1", height=45) #Place Menu button
-SideBarFileButton = tk.Button(SideMenuPanel, text="FM", font=BodyFont, command=FileManager.FileDialogOpen, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialize Button
+SideBarFileButton = tk.Button(SideMenuPanel, text="FM", font=BodyFont, command=FileManager.FileDialogOpen, bg="#1f1f1f", fg="#bb86fc", activebackground="#bb86fc", activeforeground="#1f1f1f", bd="0")  #Initialize Button
 SideBarFileButton.place(x=0, y=90, relwidth="1", height=45)    #Add open file button
-SideBarDarkModeButton = tk.Button(SideMenuPanel, text="DM", font=BodyFont, command=FileManager.SaveData, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")  #Initialze button
+SideBarDarkModeButton = tk.Button(SideMenuPanel, text="DM", font=BodyFont, command=FileManager.SaveData, bg="#1f1f1f", fg="#bb86fc", activebackground="#bb86fc", activeforeground="#1f1f1f", bd="0")  #Initialze button
 SideBarDarkModeButton.place(x=0, y=180, relwidth="1", height=45)    #Add toggle dark mode button
+SideMenuPanel.update()
 
 #dark mode button is for saving atm
 
@@ -201,12 +202,18 @@ SideBarSettingsButton.place(x=0, y=480, relwidth="1", height=45)   #Place Settin
 BookManager.__init__()
 LibraryFrame = ScrollableFrame(MainCanvas)
 LibraryFrame.scrollable_frame.configure(height=MainCanvas.winfo_height(), width=(MainCanvas.winfo_height() - 50))
+MyLibraryLable = Label(LibraryFrame.scrollable_frame, text="My Library:", font=('Arial', 25), bg="#1F1B24", fg="#bb86fc").pack(side="top")
 for i in BookList.keys():
     print(i)
-    Label(LibraryFrame.scrollable_frame, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="top")
-    Button(LibraryFrame.scrollable_frame, text="Edit", bg="#bb86fc").pack(side="top")
+    tempCanvas = Canvas(LibraryFrame.scrollable_frame, bg="#1F1B24", highlightthickness=0)
+    Label(tempCanvas, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="left")
+    Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")
+    Button(tempCanvas, text="Edit", bg="#bb86fc").pack(side="left")
+    tempCanvas.pack(side="top")
 LibraryFrame.pack(side="left",fill=BOTH)
+LibraryFrame.update()
 
 
 App(Root).pack()
 Root.mainloop()
+App._resize_handler()
