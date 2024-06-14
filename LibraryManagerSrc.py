@@ -205,13 +205,26 @@ LibraryFrame.scrollable_frame.configure(height=MainCanvas.winfo_height(), width=
 MyLibraryLable = Label(LibraryFrame.scrollable_frame, text="My Library:", font=('Ubuntu', 25), bg="#1F1B24", fg="#bb86fc").pack(side="top")
 for i in BookList.keys():
     print(i)
-    Label(LibraryFrame.scrollable_frame, text="--------------------------", bg="#1F1B24", fg="#bb86fc").pack(side="top")
+
+    #match book title to other stuff
+    for x in BookData:
+        if i in x:
+            print(x)
+            tempbooklist = x
+
+
+
+    Label(LibraryFrame.scrollable_frame, text="------------------------------------------------------------------------------", bg="#1F1B24", fg="#bb86fc").pack(side="top")
     tempCanvas = Canvas(LibraryFrame.scrollable_frame, bg="#1F1B24", highlightthickness=0)
-    Label(tempCanvas, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="left")
-    Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")
-    Button(tempCanvas, text="Edit", bg="#bb86fc", bd=0).pack(side="left")
+    Label(tempCanvas, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="left")     #book name
+    Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")        #spacing
+    Label(tempCanvas, text=("Completion: " + str(tempbooklist[2]) + "%"), bg="#1F1B24", fg="#bb86fc").pack(side="left")    #completeion display
+    Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")        #spacing
+    Label(tempCanvas, text=("Date added: " + str(tempbooklist[1])), bg="#1F1B24", fg="#bb86fc").pack(side="left")
+    Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")        #spacing
+    Button(tempCanvas, text="Edit", bg="#bb86fc", bd=0, relief='groove').pack(side="left")
     tempCanvas.pack(side="top")
-LibraryFrame.pack(side="left",fill=BOTH)
+LibraryFrame.pack(side="left",fill=BOTH, expand=True)
 LibraryFrame.update()
 
 
