@@ -18,4 +18,4 @@ Packages:
 
 6/11/24: Added Scrollable Book List, Saved books are now added to said list in the ui, cleaned up code, worked on theme
 
-6/13/24: Fixxed UI alignment, UI coloring
+6/13/24: Fixxed UI alignment, UI coloring, major ui upgrades and more data functionality
