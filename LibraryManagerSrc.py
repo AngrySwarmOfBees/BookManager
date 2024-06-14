@@ -158,7 +158,7 @@ class ScrollableFrame(ttk.Frame):
     def __init__(self, container, *args, **kwargs):
         super().__init__(container, *args, **kwargs)
         canvas = tk.Canvas(self, background="#1F1B24", bd=0)
-        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        scrollbar = ttk.Scrollbar(Root, orient="vertical", command=canvas.yview)
         self.scrollable_frame = ttk.Frame(canvas, style='TFrame')
 
         self.scrollable_frame.bind(
@@ -183,7 +183,7 @@ MainCanvas.place(x=0, y=0, relheight="1", relwidth="1")
 #PlaceHolderText = tk.Label(MainCanvas, text ="Placeholder", bg="#1F1B24", fg="#bb86fc", font=HeaderFont)
 #PlaceHolderText.grid(row= 0, column=0)
 
-SideMenuPanel=tk.Canvas(Root, background="#1f1f1f", height=6, width=50, bd="0", highlightthickness="0")     #Create left side bar
+SideMenuPanel=tk.Canvas(MainCanvas, background="#1f1f1f", height=6, width=50, bd="0", highlightthickness="0")     #Create left side bar
 SideMenuPanel.pack(side=LEFT)   #add left side bar
 SideBarAddNewBookButton=tk.Button(SideMenuPanel, text="+", command=BookManager.AddNewBook, bg="#1f1f1f", fg="#bb86fc", activebackground="#363636", activeforeground="#bb86fc", bd="0")
 SideBarAddNewBookButton.place(x=0, y=0, relwidth="1", height=45)
@@ -200,12 +200,13 @@ SideBarSettingsButton = tk.Button(SideMenuPanel, text="SM", font=BodyFont, comma
 SideBarSettingsButton.place(x=0, y=480, relwidth="1", height=45)   #Place Settings Button
 BookManager.__init__()
 LibraryFrame = ScrollableFrame(MainCanvas)
-LibraryFrame.scrollable_frame.configure(height=Root.winfo_height(), width=(Root.winfo_height() - 50))
+LibraryFrame.scrollable_frame.configure(height=MainCanvas.winfo_height(), width=(MainCanvas.winfo_height() - 50))
 for i in BookList.keys():
     print(i)
     Label(LibraryFrame.scrollable_frame, text=i, bg="#1F1B24", fg="#bb86fc").pack(side="top")
     Button(LibraryFrame.scrollable_frame, text="Edit", bg="#bb86fc").pack(side="top")
-LibraryFrame.pack(side="right",fill=BOTH)
+LibraryFrame.pack(side="left",fill=BOTH)
+
 
 App(Root).pack()
 Root.mainloop()
