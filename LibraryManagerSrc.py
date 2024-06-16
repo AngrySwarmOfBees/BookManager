@@ -132,12 +132,13 @@ class BookManager():
         BookData = []
         BookDataFile = csv.reader(open(FileManager.LocalSaveFile))
         for row in BookDataFile:
-            #print(row)
-            BookData.append(row)
-            #print(BookData.index(row))
-            BookList[row[0]] = BookData.index(row)
-            print(BookData)
-            print(BookList)
+            if any(row):
+                #print(row)
+                BookData.append(row)
+                #print(BookData.index(row))
+                BookList[row[0]] = BookData.index(row)
+                print(BookData)
+                print(BookList)
             
         #print(BookList)
         #Gather data from csv file and add to memory in booklist and bookdata vars
@@ -151,6 +152,34 @@ class BookManager():
         print(BookData)
         Label(LibraryFrame.scrollable_frame, text=NewBookName).pack(side="top")
         Button(LibraryFrame.scrollable_frame, text="Edit").pack(side="top")
+
+    def GetBookArrayFromName(BookName):
+        for x in BookData:
+            if i in x:
+                print(x)
+                tempbooklist = x
+        return tempbooklist
+    
+    def GetIndexFromName(BookName):
+        for x in BookData:
+            if i in x:
+                print(x)
+                tempbooklist = x
+        return(BookData.index(tempbooklist))
+
+
+    def EditBook(BookName):     #called by edit button in ui, inputs book name to be edited, and then brings pop up asking more data
+        global BookData
+        print("Editing" + BookName)
+        NewBookPercent = tk.simpledialog.askfloat("Completion Percent", "What percentage complete is this book?")
+        Index = BookManager.GetIndexFromName(BookName=BookName)
+        BookData[Index] = [BookName, (BookData[Index][1]), NewBookPercent]
+        print(BookData[Index])
+
+
+    
+        
+
 
 class ScrollableFrame(ttk.Frame):
     BodyWidgetStyle = ttk.Style()
@@ -207,10 +236,7 @@ for i in BookList.keys():
     print(i)
 
     #match book title to other data
-    for x in BookData:
-        if i in x:
-            print(x)
-            tempbooklist = x
+    tempbooklist = BookManager.GetBookArrayFromName(BookName=i)
 
     Label(LibraryFrame.scrollable_frame, text="------------------------------------------------------------------------------", bg="#1F1B24", fg="#bb86fc").pack(side="top")
     tempCanvas = Canvas(LibraryFrame.scrollable_frame, bg="#1F1B24", highlightthickness=0)
@@ -220,7 +246,7 @@ for i in BookList.keys():
     Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")        #spacing
     Label(tempCanvas, text=("Date added: " + str(tempbooklist[1])), bg="#1F1B24", fg="#bb86fc").pack(side="left")
     Label(tempCanvas, text="    ", bg="#1F1B24", fg="#bb86fc").pack(side="left")        #spacing
-    Button(tempCanvas, text="Edit", bg="#bb86fc", bd=0, relief='groove').pack(side="left")      #Edit button -----INCOMPLETE-----
+    Button(tempCanvas, text="Edit", bg="#bb86fc", bd=0, relief='groove', command=lambda: BookManager.EditBook(i)).pack(side="left")      #Edit button 
     tempCanvas.pack(side="top")
 LibraryFrame.pack(side="left",fill=BOTH, expand=True)
 LibraryFrame.update()
